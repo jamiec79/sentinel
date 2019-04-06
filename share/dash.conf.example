@@ -1,6 +1,6 @@
 # basic settings
 txindex=1
-testnet=1 # TESTNET
+mainnet=1 # MAINNET
 logtimestamps=1
 
 # optional indices
@@ -11,6 +11,6 @@ spentindex=1
 
 # JSONRPC
 server=1
-rpcuser=dashrpc
-rpcpassword=abcdefghijklmnopqrstuvwxyz0123456789ABCDEF10
+rpcuser=genixuser
+rpcpassword=uCeiVie2Yoh3seesoovi
 rpcallowip=127.0.0.1
