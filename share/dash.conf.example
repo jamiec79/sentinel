@@ -1,6 +1,6 @@
 # basic settings
 txindex=1
-mainnet=1 # MAINNET
+testnet=1 # TESTNET
 logtimestamps=1
 
 # optional indices
