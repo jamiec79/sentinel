@@ -6,15 +6,15 @@ os.environ['SENTINEL_CONFIG'] = os.path.normpath(os.path.join(os.path.dirname(__
 os.environ['SENTINEL_ENV'] = 'test'
 sys.path.append(os.path.normpath(os.path.join(os.path.dirname(__file__), '../../lib')))
 import config
-from dash_config import DashConfig
+from genix_config import GenixConfig
 
 
 @pytest.fixture
-def dash_conf(**kwargs):
+def genix_conf(**kwargs):
     defaults = {
-        'rpcuser': 'dashrpc',
-        'rpcpassword': 'EwJeV3fZTyTVozdECF627BkBMnNDwQaVLakG3A4wXYyk',
-        'rpcport': 29241,
+        'rpcuser': 'genixrpc',
+        'rpcpassword': 'uCeiVie2Yoh3seesoovi',
+        'rpcport': 4455,
     }
 
     # merge kwargs into defaults
@@ -34,38 +34,38 @@ rpcport={rpcport}
 
 
 def test_get_rpc_creds():
-    dash_config = dash_conf()
-    creds = DashConfig.get_rpc_creds(dash_config, 'testnet')
+    genix_config = genix_conf()
+    creds = GenixConfig.get_rpc_creds(genix_config, 'testnet')
 
     for key in ('user', 'password', 'port'):
         assert key in creds
-    assert creds.get('user') == 'dashrpc'
-    assert creds.get('password') == 'EwJeV3fZTyTVozdECF627BkBMnNDwQaVLakG3A4wXYyk'
+    assert creds.get('user') == 'genixrpc'
+    assert creds.get('password') == 'uCeiVie2Yoh3seesoovi'
     assert creds.get('port') == 29241
 
-    dash_config = dash_conf(rpcpassword='s00pers33kr1t', rpcport=8000)
-    creds = DashConfig.get_rpc_creds(dash_config, 'testnet')
+    genix_config = genix_conf(rpcpassword='s00pers33kr1t', rpcport=8000)
+    creds = GenixConfig.get_rpc_creds(genix_config, 'testnet')
 
     for key in ('user', 'password', 'port'):
         assert key in creds
-    assert creds.get('user') == 'dashrpc'
-    assert creds.get('password') == 's00pers33kr1t'
-    assert creds.get('port') == 8000
+    assert creds.get('user') == 'genixrpc'
+    assert creds.get('password') == 'uCeiVie2Yoh3seesoovi'
+    assert creds.get('port') == 4455
 
-    no_port_specified = re.sub('\nrpcport=.*?\n', '\n', dash_conf(), re.M)
-    creds = DashConfig.get_rpc_creds(no_port_specified, 'testnet')
+    no_port_specified = re.sub('\nrpcport=.*?\n', '\n', genix_conf(), re.M)
+    creds = GenixConfig.get_rpc_creds(no_port_specified, 'testnet')
 
     for key in ('user', 'password', 'port'):
         assert key in creds
-    assert creds.get('user') == 'dashrpc'
-    assert creds.get('password') == 'EwJeV3fZTyTVozdECF627BkBMnNDwQaVLakG3A4wXYyk'
-    assert creds.get('port') == 19998
+    assert creds.get('user') == 'genixrpc'
+    assert creds.get('password') == 'uCeiVie2Yoh3seesoovi'
+    assert creds.get('port') == 4455
 
 
 def test_slurp_config_file():
     import tempfile
 
-    dash_config = """# basic settings
+    genix_config = """# basic settings
 #testnet=1 # TESTNET
 server=1
 printtoconsole=1
@@ -78,7 +78,7 @@ txindex=1 # enable transaction index
 """
 
     with tempfile.NamedTemporaryFile(mode='w') as temp:
-        temp.write(dash_config)
+        temp.write(genix_config)
         temp.flush()
-        conf = DashConfig.slurp_config_file(temp.name)
+        conf = GenixConfig.slurp_config_file(temp.name)
         assert conf == expected_stripped_config
