@@ -123,8 +123,8 @@ def superblock():
 
 
 def test_superblock_is_valid(superblock):
-    from dashd import DashDaemon
-    dashd = DashDaemon.from_dash_conf(config.dash_conf)
+    from genixd import GenixDaemon
+    genixd = GenixDaemon.from_genix_conf(config.genix_conf)
 
     orig = Superblock(**superblock.get_dict())  # make a copy
 
@@ -225,17 +225,17 @@ def test_serialisable_fields():
 
 
 def test_deterministic_superblock_creation(go_list_proposals):
-    import dashlib
+    import genixlib
     import misc
-    from dashd import DashDaemon
-    dashd = DashDaemon.from_dash_conf(config.dash_conf)
+    from genixd import GenixDaemon
+    genixd = GenixDaemon.from_genix_conf(config.genix_conf)
     for item in go_list_proposals:
-        (go, subobj) = GovernanceObject.import_gobject_from_dashd(dashd, item)
+        (go, subobj) = GovernanceObject.import_gobject_from_genixd(genixd, item)
 
     max_budget = 60
     prop_list = Proposal.approved_and_ranked(proposal_quorum=1, next_superblock_max_budget=max_budget)
 
-    sb = dashlib.create_superblock(prop_list, 72000, max_budget, misc.now())
+    sb = genixlib.create_superblock(prop_list, 72000, max_budget, misc.now())
 
     assert sb.event_block_height == 72000
     assert sb.payment_addresses == 'yYe8KwyaUu5YswSYmB3q3ryx8XTUu9y7Ui|yTC62huR4YQEPn9AJHjnQxxreHSbgAoatV'
@@ -246,11 +246,11 @@ def test_deterministic_superblock_creation(go_list_proposals):
 
 
 def test_deterministic_superblock_selection(go_list_superblocks):
-    from dashd import DashDaemon
-    dashd = DashDaemon.from_dash_conf(config.dash_conf)
+    from genixd import GenixDaemon
+    genixd = GenixDaemon.from_genix_conf(config.genix_conf)
 
     for item in go_list_superblocks:
-        (go, subobj) = GovernanceObject.import_gobject_from_dashd(dashd, item)
+        (go, subobj) = GovernanceObject.import_gobject_from_genixd(genixd, item)
 
     # highest hash wins if same -- so just order by hash
     sb = Superblock.find_highest_deterministic('542f4433e438bdd64697b8381fda1a7a9b7a111c3a4e32fad524d1821d820394')
