@@ -3,30 +3,30 @@
 """
 import sys
 import os
-from dash_config import DashConfig
+from genix_config import genixConfig
 
 default_sentinel_config = os.path.normpath(
     os.path.join(os.path.dirname(__file__), '../sentinel.conf')
 )
 sentinel_config_file = os.environ.get('SENTINEL_CONFIG', default_sentinel_config)
-sentinel_cfg = DashConfig.tokenize(sentinel_config_file)
+sentinel_cfg = GenixConfig.tokenize(sentinel_config_file)
 sentinel_version = "1.3.0"
-min_dashd_proto_version_with_sentinel_ping = 70207
+min_genixd_proto_version_with_sentinel_ping = 70207
 
 
-def get_dash_conf():
+def get_genix_conf():
     if sys.platform == 'win32':
-        dash_conf = os.path.join(os.getenv('APPDATA'), "DashCore/dash.conf")
+        genix_conf = os.path.join(os.getenv('APPDATA'), "genixcore/genix.conf")
     else:
         home = os.environ.get('HOME')
 
-        dash_conf = os.path.join(home, ".dashcore/dash.conf")
+        genix_conf = os.path.join(home, ".genixcore/genix.conf")
         if sys.platform == 'darwin':
-            dash_conf = os.path.join(home, "Library/Application Support/DashCore/dash.conf")
+            genix_conf = os.path.join(home, "Library/Application Support/GenixCore/genix.conf")
 
-    dash_conf = sentinel_cfg.get('dash_conf', dash_conf)
+    genix_conf = sentinel_cfg.get('genix_conf', genix_conf)
 
-    return dash_conf
+    return genix_conf
 
 
 def get_network():
@@ -86,7 +86,7 @@ def get_db_conn():
     return db
 
 
-dash_conf = get_dash_conf()
+genix_conf = get_genix_conf()
 network = get_network()
 rpc_host = get_rpchost()
 db = get_db_conn()
