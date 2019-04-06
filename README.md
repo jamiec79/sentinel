@@ -1,4 +1,4 @@
-# Dash Sentinel
+# Genix Sentinel
 
 [![Build Status](https://travis-ci.org/dashpay/sentinel.svg?branch=master)](https://travis-ci.org/dashpay/sentinel)
 
@@ -33,7 +33,7 @@ Update system packages and ensure virtualenv is installed:
 
 Make sure the local DashCore daemon running is at least version 12.1 (120100)
 
-    $ dash-cli getinfo | grep version
+    $ genix-cli getinfo | grep version
 
 ### Install Sentinel
 
